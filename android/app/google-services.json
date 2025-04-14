@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "335141937323",
+    "project_id": "fitdiva",
+    "storage_bucket": "fitdiva.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:335141937323:android:aa4bac60418ccf66d657ee",
+        "android_client_info": {
+          "package_name": "com.example.fitdiva"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC9kUnzYVnX8EIx70kr0gCHVAzompKDHXU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
