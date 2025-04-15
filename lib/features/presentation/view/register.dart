@@ -1,8 +1,9 @@
+import 'package:fitdiva/features/presentation/router/approutes.dart';
 import 'package:fitdiva/features/presentation/style/color.dart';
 import 'package:fitdiva/features/presentation/style/typography.dart';
-import 'package:fitdiva/features/presentation/view/login.dart';
 import 'package:fitdiva/features/presentation/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class RegisterScreen extends StatefulWidget {
@@ -115,6 +116,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
                               },
                             ),
                           ),
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Password tidak boleh kosong';
+                            }
+                            if (value.length < 6) {
+                              return 'Password harus terdiri dari minimal 6 karakter';
+                            }
+                            return null;
+                          },
                         ),
                         const SizedBox(height: 24),
                         if (_errorMessage != null)
@@ -184,12 +194,33 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         const SizedBox(height: 16),
                         ElevatedButton.icon(
-                          onPressed: () {},
+                          onPressed: _isLoading
+                              ? null
+                              : () async {
+                                  setState(() {
+                                    _isLoading = true;
+                                    _errorMessage = null;
+                                  });
+                                  final authProvider = Provider.of<AuthProvider>(context, listen: false);
+                                  try {
+                                    await authProvider.signInWithGoogle(context);
+                                  } catch (e) {
+                                    setState(() {
+                                      _errorMessage = 'Google Sign-In failed. Please try again.';
+                                    });
+                                  } finally {
+                                    setState(() {
+                                      _isLoading = false;
+                                    });
+                                  }
+                                },
                           icon: Image.asset('assets/images/google_icon.png', height: 24),
-                          label: Text(
-                            'Sign in with Google',
-                            style: AppTextStyles.paragraph_14_bold.copyWith(color: Colors.black),
-                          ),
+                          label: _isLoading
+                              ? CircularProgressIndicator(color: Colors.black)
+                              : Text(
+                                  'Sign in with Google',
+                                  style: AppTextStyles.paragraph_14_bold.copyWith(color: Colors.black),
+                                ),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: Colors.white,
                             minimumSize: const Size(double.infinity, 48),
@@ -223,10 +254,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         const SizedBox(height: 16),
                         GestureDetector(
                           onTap: () {
-                            Navigator.pushReplacement(
-                              context,
-                              MaterialPageRoute(builder: (context) => LoginScreen()),
-                            );
+                            context.go(AppRoutes.login);
                           },
                           child: Text(
                             'Already have an account? Log in',

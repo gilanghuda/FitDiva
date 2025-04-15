@@ -18,8 +18,7 @@ class _ActivityScreenState extends State<ActivityScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Activity'),
-        backgroundColor: AppColors.Primary,
+        title: const Text('Activity', style: AppTextStyles.heading_2_bold ),
         actions: [
           IconButton(
             icon: const Icon(Icons.notifications),
@@ -258,6 +257,18 @@ class _ActivityScreenState extends State<ActivityScreen> {
               'Workouts per Week',
               style: AppTextStyles.heading_3_bold,
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: List.generate(
+                6,
+                (index) => Text(
+                  '${index + 2}',
+                  style: AppTextStyles.paragraph_14_bold.copyWith(
+                    color: AppColors.grey,
+                  ),
+                ),
+              ),
+            ),
             Slider(
               value: _workoutsPerWeek,
               min: 2,
@@ -277,6 +288,18 @@ class _ActivityScreenState extends State<ActivityScreen> {
             Text(
               'Workout Duration (Mins)',
               style: AppTextStyles.heading_3_bold,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: List.generate(
+                5,
+                (index) => Text(
+                  '${10 + index * 5}',
+                  style: AppTextStyles.paragraph_14_bold.copyWith(
+                    color: AppColors.grey,
+                  ),
+                ),
+              ),
             ),
             Slider(
               value: _workoutDuration,

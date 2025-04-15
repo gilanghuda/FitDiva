@@ -3,8 +3,6 @@ import 'package:fitdiva/features/data/models/user_model.dart';
 import 'package:fitdiva/features/domain/usecases/login_user.dart';
 import 'package:fitdiva/features/domain/usecases/register_user.dart';
 import 'package:fitdiva/features/presentation/router/approutes.dart';
-import 'package:fitdiva/features/presentation/view/Homepage_Screen.dart';
-import 'package:fitdiva/features/presentation/view/login.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -30,12 +28,18 @@ class AuthProvider with ChangeNotifier {
     return user?.displayName;
   }
 
+  String? get userEmail {
+    final user = authService.getCurrentUser();
+    return user?.email;
+  }
+
   Future<void> login(String email, String password, BuildContext context) async {
     _setLoading(true);
     _clearError();
     try {
       await loginUser(LoginParams(email: email, password: password));
       if (context.mounted) {
+        print("login cont : ${context}");
         context.go(AppRoutes.navbar);
       }
     } catch (e) {
@@ -53,7 +57,9 @@ class AuthProvider with ChangeNotifier {
       await authService.register(email, password, username); // Pass username here
       print('User registered successfully.');
       if (context.mounted) {
+        print("woy ${context}");
         context.go(AppRoutes.login);
+        print("woy 2");
       }
     } catch (e) {
       print('Error during registration: $e');
@@ -69,7 +75,7 @@ class AuthProvider with ChangeNotifier {
     try {
       await authService.signInWithGoogle(context);
       if (context.mounted) {
-        context.go('/home');
+        context.go(AppRoutes.navbar);
       }
     } catch (e) {
       _setError(e.toString());
@@ -84,7 +90,7 @@ class AuthProvider with ChangeNotifier {
     try {
       await authService.signOut(context);
       if (context.mounted) {
-        context.go('/login');
+        context.go(AppRoutes.login);
       }
     } catch (e) {
       _setError(e.toString());

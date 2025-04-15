@@ -27,8 +27,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Calendar'),
-        backgroundColor: AppColors.Primary,
+        title: const Text('Calendar', style: AppTextStyles.heading_2_bold),
         actions: [
           IconButton(
             icon: const Icon(Icons.notifications),

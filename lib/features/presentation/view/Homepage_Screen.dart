@@ -4,7 +4,6 @@ import 'package:fitdiva/features/presentation/view/Homepage_Widget.dart';
 import 'package:fitdiva/features/presentation/view/exercise_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:fitdiva/features/domain/entities/exercise.dart';
-import 'package:fitdiva/features/domain/usecases/get_exercises.dart';
 import 'package:provider/provider.dart';
 import 'package:fitdiva/features/presentation/provider/exercise_provider.dart';
 import 'package:fitdiva/features/domain/usecases/add_exercise.dart';
