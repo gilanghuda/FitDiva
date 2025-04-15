@@ -1,8 +1,9 @@
-import 'package:fitdiva/features/presentation/view/login.dart';
+import 'package:fitdiva/features/presentation/router/approutes.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart'; // Ensure this is imported for MediaQuery
+import 'package:flutter/widgets.dart'; 
 import 'package:fitdiva/features/presentation/style/color.dart';
 import 'package:fitdiva/features/presentation/style/typography.dart';
+import 'package:go_router/go_router.dart';
 
 class OnboardingScreen extends StatefulWidget {
   @override
@@ -81,21 +82,6 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(height: screenHeight / 2 - 260), // Adjusted to move dots higher
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: List.generate(
-                          _onboardingData.length,
-                          (index) => Container(
-                            margin: EdgeInsets.symmetric(horizontal: 24),
-                            width: _currentPage == index ? 12 : 8,
-                            height: 8,
-                            decoration: BoxDecoration(
-                              color: _currentPage == index ? AppColors.white : Colors.grey,
-                              borderRadius: BorderRadius.circular(4),
-                            ),
-                          ),
-                        ),
-                      ),
                       SizedBox(height: 20), // Space between dots and title
                       Text(
                         _onboardingData[index]["title"]!,
@@ -118,6 +104,26 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
             },
           ),
           Positioned(
+            top: screenHeight / 2 - 40, // Adjust position as needed
+            left: 0,
+            right: 0,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: List.generate(
+                _onboardingData.length,
+                (index) => Container(
+                  margin: EdgeInsets.symmetric(horizontal: 24),
+                  width: _currentPage == index ? 12 : 8,
+                  height: 8,
+                  decoration: BoxDecoration(
+                    color: _currentPage == index ? AppColors.white : Colors.grey,
+                    borderRadius: BorderRadius.circular(4),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          Positioned(
             bottom: 100,
             left: 0,
             right: 0,
@@ -128,10 +134,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => LoginScreen()),
-                      );
+                      context.go(AppRoutes.register);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.white,
@@ -149,10 +152,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()),
-                    );
+                    context.go(AppRoutes.login);
                   },
                   child: RichText(
                     text: TextSpan(
