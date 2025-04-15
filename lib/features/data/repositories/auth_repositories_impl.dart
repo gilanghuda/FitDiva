@@ -1,4 +1,3 @@
-
 import 'package:fitdiva/features/data/datasource/auth_service.dart';
 import 'package:fitdiva/features/domain/entities/user.dart';
 import 'package:fitdiva/features/domain/repositories/auth_repository.dart';
@@ -19,13 +18,12 @@ class AuthRepositoryImpl implements AuthRepository {
   }
 
   @override
-  Future<UserEntity> register(String email,  String password) async {
-    final user = await firebaseAuthService.register(email, password);
+  Future<UserEntity> register(String email, String password, String username) async {
+    final user = await firebaseAuthService.register(email, password, username);
     return UserEntity(
       id: user.id,
       username: user.username,
       email: user.email,
     );
   }
-
 }
