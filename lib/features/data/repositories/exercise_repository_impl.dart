@@ -18,6 +18,7 @@ class ExerciseRepositoryImpl implements ExerciseRepository {
               exercises: exercise.exercises,
               duration: exercise.duration,
               image: exercise.image,
+              category: exercise.category, 
             ))
         .toList();
   }
@@ -30,6 +31,7 @@ class ExerciseRepositoryImpl implements ExerciseRepository {
       exercises: exercise.exercises,
       duration: exercise.duration,
       image: exercise.image,
+      category: exercise.category, 
     );
     await exerciseService.addExercise(exerciseModel);
   }
