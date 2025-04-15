@@ -1,0 +1,2 @@
+F:/Job/FitDiva/FitDiva/android/app/.cxx/Debug/8k573j5m/x86/CMakeFiles/edit_cache.dir
+F:/Job/FitDiva/FitDiva/android/app/.cxx/Debug/8k573j5m/x86/CMakeFiles/rebuild_cache.dir
