@@ -1,8 +1,9 @@
+import 'package:fitdiva/features/presentation/router/approutes.dart';
 import 'package:fitdiva/features/presentation/style/color.dart';
 import 'package:fitdiva/features/presentation/style/typography.dart';
-import 'package:fitdiva/features/presentation/view/register.dart';
 import 'package:fitdiva/features/presentation/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -161,10 +162,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(height: 20),
                       GestureDetector(
                         onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => RegisterScreen()),
-                          );
+                          context.go(AppRoutes.register);
                         },
                         child: Text(
                           "Don't have an account?",

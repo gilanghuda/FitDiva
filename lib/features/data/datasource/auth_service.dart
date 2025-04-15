@@ -103,13 +103,10 @@ class FirebaseAuthService {
 
       DocumentSnapshot userDoc = await _firestore.collection('users').doc(firebaseUser!.uid).get();
       if (!userDoc.exists) {
-
-
         await _firestore.collection('users').doc(firebaseUser.uid).set({
           'username': firebaseUser.displayName,
           'email': firebaseUser.email,
         });
-      } else {
       }
 
       return UserModel(
@@ -118,11 +115,7 @@ class FirebaseAuthService {
         email: firebaseUser.email!,
       );
     } on FirebaseAuthException catch (e) {
-      if (e.code == 'sign_in_failed') {
-        throw Exception('Google sign-in failed. Please check your configuration.');
-      } else {
-        throw Exception('Google sign-in failed: ${e.message}');
-      }
+      throw Exception('Google sign-in failed: ${e.message}');
     } catch (e) {
       throw Exception('Google sign-in failed: ${e.toString()}');
     }
