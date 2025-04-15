@@ -1,8 +1,10 @@
+import 'package:fitdiva/features/presentation/router/approutes.dart';
 import 'package:fitdiva/features/presentation/view/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart'; // Ensure this is imported for MediaQuery
 import 'package:fitdiva/features/presentation/style/color.dart';
 import 'package:fitdiva/features/presentation/style/typography.dart';
+import 'package:go_router/go_router.dart';
 
 class OnboardingScreen extends StatefulWidget {
   @override
@@ -69,18 +71,24 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       gradient: LinearGradient(
                         colors: [
                           Colors.transparent, // Transparent at the top
-                          AppColors.Primary.withOpacity(0.1), // Gradual transition to primary color
-                          AppColors.Primary, // Solid primary color at the bottom
+                          AppColors.Primary.withOpacity(
+                              0.1), // Gradual transition to primary color
+                          AppColors
+                              .Primary, // Solid primary color at the bottom
                         ],
-                        begin: Alignment.center, // Start from the vertical center
-                        end: Alignment.bottomCenter, // End at the bottom of the screen
+                        begin:
+                            Alignment.center, // Start from the vertical center
+                        end: Alignment
+                            .bottomCenter, // End at the bottom of the screen
                       ),
                     ),
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      SizedBox(height: screenHeight / 2 - 260), // Adjusted to move dots higher
+                      SizedBox(
+                          height: screenHeight / 2 -
+                              260), // Adjusted to move dots higher
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: List.generate(
@@ -90,7 +98,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             width: _currentPage == index ? 12 : 8,
                             height: 8,
                             decoration: BoxDecoration(
-                              color: _currentPage == index ? AppColors.white : Colors.grey,
+                              color: _currentPage == index
+                                  ? AppColors.white
+                                  : Colors.grey,
                               borderRadius: BorderRadius.circular(4),
                             ),
                           ),
@@ -99,7 +109,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       SizedBox(height: 20), // Space between dots and title
                       Text(
                         _onboardingData[index]["title"]!,
-                        style: AppTextStyles.heading_1_bold.copyWith(color: AppColors.white),
+                        style: AppTextStyles.heading_1_bold
+                            .copyWith(color: AppColors.white),
                         textAlign: TextAlign.center,
                       ),
                       SizedBox(height: 10),
@@ -107,7 +118,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
                         child: Text(
                           _onboardingData[index]["description"]!,
-                          style: AppTextStyles.paragraph_18_regular.copyWith(color: AppColors.white.withOpacity(0.7)),
+                          style: AppTextStyles.paragraph_18_regular.copyWith(
+                              color: AppColors.white.withOpacity(0.7)),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -128,10 +140,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   padding: const EdgeInsets.symmetric(horizontal: 20.0),
                   child: ElevatedButton(
                     onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(builder: (context) => LoginScreen()),
-                      );
+                      context.go(AppRoutes.login);
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor: AppColors.white,
@@ -143,25 +152,25 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ),
                     child: Text(
                       "Start Exercise",
-                      style: AppTextStyles.paragraph_18_bold.copyWith(color: AppColors.Primary),
+                      style: AppTextStyles.paragraph_18_bold
+                          .copyWith(color: AppColors.Primary),
                     ),
                   ),
                 ),
                 TextButton(
                   onPressed: () {
-                    Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()),
-                    );
+                    context.go(AppRoutes.login);
                   },
                   child: RichText(
                     text: TextSpan(
                       text: "Already have account? ",
-                      style: AppTextStyles.paragraph_14_regular.copyWith(color: AppColors.white.withOpacity(0.7)),
+                      style: AppTextStyles.paragraph_14_regular
+                          .copyWith(color: AppColors.white.withOpacity(0.7)),
                       children: [
                         TextSpan(
                           text: "Sign In",
-                          style: AppTextStyles.paragraph_14_regular.copyWith(color: AppColors.white),
+                          style: AppTextStyles.paragraph_14_regular
+                              .copyWith(color: AppColors.white),
                         ),
                       ],
                     ),

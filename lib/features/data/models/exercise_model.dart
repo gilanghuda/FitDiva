@@ -17,7 +17,7 @@ class ExerciseModel extends Exercise {
       exercises: List<String>.from(json['exercises']),
       duration: json['duration'],
       image: json['image'],
-      category: json['category'], // New attribute
+      category: json['category'], 
     );
   }
 
@@ -28,7 +28,7 @@ class ExerciseModel extends Exercise {
       'exercises': exercises,
       'duration': duration,
       'image': image,
-      'category': category, // New attribute
+      'category': category, 
     };
   }
 }

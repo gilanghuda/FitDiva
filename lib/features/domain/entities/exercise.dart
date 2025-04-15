@@ -4,8 +4,7 @@ class Exercise {
   final List<String> exercises;
   final int duration;
   final String image;
-  final String category; // New attribute
-
+  final String category; 
   Exercise({
     required this.name,
     required this.count,

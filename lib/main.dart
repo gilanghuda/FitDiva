@@ -1,4 +1,5 @@
 import 'package:fitdiva/features/data/datasource/auth_service.dart';
+import 'package:fitdiva/features/presentation/provider/exercise_provider.dart';
 import 'package:fitdiva/features/presentation/view/onboarding_screen.dart';
 import 'package:fitdiva/features/presentation/view/register.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +13,7 @@ import 'di/injection_container.dart' as di;
 import 'package:fitdiva/features/presentation/router/approuter.dart';
 // import 'package:flutter_native_splash/flutter_native_splash.dart';
 
-void main() async { 
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
@@ -40,8 +41,14 @@ class MyApp extends StatelessWidget {
               loginUser: di.sl(),
               registerUser: di.sl(),
               authService: FirebaseAuthService()),
-          ), // Provide AuthProvider
-        // Add other providers here as needed
+        ), // Provide AuthProvider
+        ChangeNotifierProvider(
+          create: (_) => ExerciseProvider(
+            getExercises: di.sl(),
+            addExercise: di.sl(),
+            // Provide ExerciseProvider
+          ),
+        ),
       ],
       child: MaterialApp.router(
         debugShowCheckedModeBanner: false,
