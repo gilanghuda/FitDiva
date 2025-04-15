@@ -9,35 +9,50 @@ class FirebaseAuthService {
   final GoogleSignIn _googleSignIn = GoogleSignIn();
   final FirebaseFirestore _firestore = FirebaseFirestore.instance; 
 
-  Future<UserModel> register(String email, String password) async {
-    try {
-      UserCredential userCredential = await _auth.createUserWithEmailAndPassword(email: email, password: password);
-      final firebaseUser = userCredential.user;
-      final username = email.split('@')[0];
-      await firebaseUser!.updateDisplayName(username);
+  Future<UserModel> register(String email, String password, String username) async {
+    int retryCount = 0;
+    const int maxRetries = 3;
 
-     
-      await _firestore.collection('users').doc(firebaseUser.uid).set({
-        'username': username,
-        'email': email,
-      });
+    while (retryCount < maxRetries) {
+      try {
+        UserCredential userCredential = await _auth.createUserWithEmailAndPassword(email: email, password: password);
+        final firebaseUser = userCredential.user;
 
-      return UserModel(
-        id: firebaseUser.uid,
-        username: firebaseUser.displayName!,
-        email: firebaseUser.email!,
-      );
-    } on FirebaseAuthException catch (e) {
-      if (e.code == 'weak-password') {
-        throw Exception('The password provided is too weak.');
-      } else if (e.code == 'email-already-in-use') {
-        throw Exception('An account already exists for that email.');
-      } else {
-        throw Exception(e.message ?? 'An error occurred.');
+        await firebaseUser!.updateDisplayName(username);
+
+        await _firestore.collection('users').doc(firebaseUser.uid).set({
+          'username': username,
+          'email': email,
+        });
+
+        return UserModel(
+          id: firebaseUser.uid,
+          username: username,
+          email: firebaseUser.email!,
+        );
+      } on FirebaseAuthException catch (e) {
+        if (e.code == 'weak-password') {
+          throw Exception('The password provided is too weak.');
+        } else if (e.code == 'email-already-in-use') {
+          throw Exception('An account already exists for that email.');
+        } else if (e.code == 'network-request-failed') {
+          retryCount++;
+          if (retryCount >= maxRetries) {
+            throw Exception('Network error: Failed to register user after multiple attempts.');
+          }
+          await Future.delayed(const Duration(seconds: 2)); // Wait before retrying
+        } else {
+          throw Exception(e.message ?? 'An error occurred.');
+        }
+      } catch (e) {
+        retryCount++;
+        if (retryCount >= maxRetries) {
+          throw Exception('Failed to register user after multiple attempts: ${e.toString()}');
+        }
+        await Future.delayed(const Duration(seconds: 2)); // Wait before retrying
       }
-    } catch (e) {
-      rethrow;
     }
+    throw Exception('Unexpected error during registration.');
   }
 
   Future<UserModel> login(String email, String password) async {

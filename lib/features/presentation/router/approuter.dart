@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fitdiva/features/presentation/router/approutes.dart';
+import 'package:fitdiva/features/presentation/view/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import '../view/Homepage_Screen.dart';
@@ -11,6 +13,30 @@ import '../view/register.dart';
 
 final GoRouter appRouter = GoRouter(
   routes: [
+    GoRoute(
+      path: '/',
+      builder: (context, state) {
+        return StreamBuilder<User?>(
+          stream: FirebaseAuth.instance.authStateChanges(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return SizedBox(
+                width: 16, 
+                height: 16, 
+                child: CircularProgressIndicator(),
+              );
+            } else {
+              final user = snapshot.data;
+              if (user != null) {
+                return NavbarScreen();
+              } else {
+                return OnboardingScreen();
+              }
+            }
+          },
+        );
+      },
+    ),
     GoRoute(
       path: AppRoutes.navbar,
       name: 'navbar',
