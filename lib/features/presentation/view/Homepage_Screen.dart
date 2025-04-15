@@ -2,12 +2,33 @@ import 'package:fitdiva/features/presentation/style/color.dart';
 import 'package:fitdiva/features/presentation/style/typography.dart';
 import 'package:fitdiva/features/presentation/view/Homepage_Widget.dart';
 import 'package:flutter/material.dart';
+import 'package:fitdiva/features/data/models/exercise_model.dart';
+import 'package:fitdiva/features/data/datasource/exercise_service.dart';
 
 class HomepageScreen extends StatelessWidget {
-  final HomepageWidget _homepageWidget = HomepageWidget();
+  const HomepageScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    // Test object for Exercise
+    final testExercise = ExerciseModel(
+      name: 'Full Body Warm Up',
+      count: 20,
+      exercises: [
+        'Jumping Jacks',
+        'Arm Circles',
+        'Leg Swings',
+        'Bodyweight Squats',
+        'Hip Circles',
+        'Torso Twists'
+      ],
+      duration: 22,
+      image: 'https://example.com/full_body_warm_up.png',
+    );
+
+    // Save test object to Firestore
+    ExerciseService().addExercise(testExercise);
+
     return Scaffold(
       backgroundColor: AppColors.white,
       appBar: AppBar(
@@ -95,13 +116,13 @@ class HomepageScreen extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               child: Row(
                 children: [
-                  _homepageWidget.WorkoutProgressCard(
+                  HomepageWidget().WorkoutProgressCard(
                     title: 'Chest Workout',
                     progress: '5/12',
                     timeRemaining: '15 min remaining',
                   ),
                   const SizedBox(width: 16),
-                  _homepageWidget.WorkoutProgressCard(
+                  HomepageWidget().WorkoutProgressCard(
                     title: 'Legs Workout',
                     progress: '3/20',
                     timeRemaining: '23 min remaining',
@@ -169,7 +190,7 @@ class HomepageScreen extends StatelessWidget {
             const SizedBox(height: 24),
 
             // Workout List Section
-            _homepageWidget.WorkoutListCard(
+            HomepageWidget().WorkoutListCard(
               title: 'Full Body Warm Up',
               subtitle: '20 Exercises',
               duration: '22 Min',
@@ -178,7 +199,7 @@ class HomepageScreen extends StatelessWidget {
               onTap: () {},
             ),
             const SizedBox(height: 16),
-            _homepageWidget.WorkoutListCard(
+            HomepageWidget().WorkoutListCard(
               title: 'Strength Exercise',
               subtitle: '12 Exercises',
               duration: '14 Min',
@@ -187,7 +208,7 @@ class HomepageScreen extends StatelessWidget {
               onTap: () {},
             ),
             const SizedBox(height: 16),
-            _homepageWidget.WorkoutListCard(
+            HomepageWidget().WorkoutListCard(
               title: 'Both Side Plank',
               subtitle: '15 Exercises',
               duration: '18 Min',
