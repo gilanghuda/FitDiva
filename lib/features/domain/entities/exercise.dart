@@ -4,6 +4,7 @@ class Exercise {
   final List<String> exercises;
   final int duration;
   final String image;
+  final String category; // New attribute
 
   Exercise({
     required this.name,
@@ -11,5 +12,6 @@ class Exercise {
     required this.exercises,
     required this.duration,
     required this.image,
+    required this.category,
   });
 }
