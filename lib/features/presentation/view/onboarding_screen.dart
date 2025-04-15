@@ -70,11 +70,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       gradient: LinearGradient(
                         colors: [
                           Colors.transparent, // Transparent at the top
-                          AppColors.Primary.withOpacity(0.1), // Gradual transition to primary color
-                          AppColors.Primary, // Solid primary color at the bottom
+                          AppColors.Primary.withOpacity(
+                              0.1), // Gradual transition to primary color
+                          AppColors
+                              .Primary, // Solid primary color at the bottom
                         ],
-                        begin: Alignment.center, // Start from the vertical center
-                        end: Alignment.bottomCenter, // End at the bottom of the screen
+                        begin:
+                            Alignment.center, // Start from the vertical center
+                        end: Alignment
+                            .bottomCenter, // End at the bottom of the screen
                       ),
                     ),
                   ),
@@ -85,7 +89,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                       SizedBox(height: 20), // Space between dots and title
                       Text(
                         _onboardingData[index]["title"]!,
-                        style: AppTextStyles.heading_1_bold.copyWith(color: AppColors.white),
+                        style: AppTextStyles.heading_1_bold
+                            .copyWith(color: AppColors.white),
                         textAlign: TextAlign.center,
                       ),
                       SizedBox(height: 10),
@@ -93,7 +98,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                         padding: const EdgeInsets.symmetric(horizontal: 20.0),
                         child: Text(
                           _onboardingData[index]["description"]!,
-                          style: AppTextStyles.paragraph_18_regular.copyWith(color: AppColors.white.withOpacity(0.7)),
+                          style: AppTextStyles.paragraph_18_regular.copyWith(
+                              color: AppColors.white.withOpacity(0.7)),
                           textAlign: TextAlign.center,
                         ),
                       ),
@@ -146,7 +152,8 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                     ),
                     child: Text(
                       "Start Exercise",
-                      style: AppTextStyles.paragraph_18_bold.copyWith(color: AppColors.Primary),
+                      style: AppTextStyles.paragraph_18_bold
+                          .copyWith(color: AppColors.Primary),
                     ),
                   ),
                 ),
@@ -157,11 +164,13 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   child: RichText(
                     text: TextSpan(
                       text: "Already have account? ",
-                      style: AppTextStyles.paragraph_14_regular.copyWith(color: AppColors.white.withOpacity(0.7)),
+                      style: AppTextStyles.paragraph_14_regular
+                          .copyWith(color: AppColors.white.withOpacity(0.7)),
                       children: [
                         TextSpan(
                           text: "Sign In",
-                          style: AppTextStyles.paragraph_14_regular.copyWith(color: AppColors.white),
+                          style: AppTextStyles.paragraph_14_regular
+                              .copyWith(color: AppColors.white),
                         ),
                       ],
                     ),

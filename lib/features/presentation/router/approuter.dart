@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:fitdiva/features/presentation/router/approutes.dart';
+import 'package:fitdiva/features/presentation/view/exercise_screen.dart';
 import 'package:fitdiva/features/presentation/view/onboarding_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -21,8 +22,8 @@ final GoRouter appRouter = GoRouter(
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
               return SizedBox(
-                width: 16, 
-                height: 16, 
+                width: 16,
+                height: 16,
                 child: CircularProgressIndicator(),
               );
             } else {
@@ -86,6 +87,19 @@ final GoRouter appRouter = GoRouter(
       builder: (BuildContext context, GoRouterState state) {
         print('Navigating to RegisterScreen');
         return RegisterScreen();
+      },
+    ),
+    GoRoute(
+      path: AppRoutes.exercise,
+      name: 'exercise',
+      builder: (BuildContext context, GoRouterState state) {
+        final extra =
+            state.extra as Map<String, dynamic>?; // Extract parameters
+        return ExerciseScreen(
+          title: extra?['title'] ?? 'Exercise',
+          imageUrl: extra?['imageUrl'] ?? '',
+          duration: extra?['duration'] ?? 0,
+        );
       },
     ),
   ],

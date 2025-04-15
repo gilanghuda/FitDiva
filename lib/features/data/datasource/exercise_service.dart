@@ -17,8 +17,11 @@ class ExerciseService {
 
   Future<void> addExercise(ExerciseModel exercise) async {
     try {
+      print('Sending exercise to Firestore: ${exercise.toJson()}'); // Debug log
       await _firestore.collection('exercises').add(exercise.toJson());
+      print('Exercise added to Firestore successfully'); // Debug log
     } catch (e) {
+      print('Failed to add exercise to Firestore: $e'); // Debug log
       throw Exception('Failed to add exercise: $e');
     }
   }

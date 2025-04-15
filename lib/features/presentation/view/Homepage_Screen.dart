@@ -1,10 +1,14 @@
 import 'package:fitdiva/features/presentation/style/color.dart';
 import 'package:fitdiva/features/presentation/style/typography.dart';
 import 'package:fitdiva/features/presentation/view/Homepage_Widget.dart';
+import 'package:fitdiva/features/presentation/view/exercise_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:fitdiva/features/domain/entities/exercise.dart';
 import 'package:provider/provider.dart';
 import 'package:fitdiva/features/presentation/provider/exercise_provider.dart';
+import 'package:fitdiva/features/domain/usecases/add_exercise.dart';
+import 'package:go_router/go_router.dart';
+import 'package:fitdiva/features/presentation/router/approutes.dart';
 
 class HomepageScreen extends StatefulWidget {
   const HomepageScreen({super.key});
@@ -143,6 +147,54 @@ class _HomepageScreenState extends State<HomepageScreen> {
             ),
             const SizedBox(height: 24),
 
+            // Progress Section
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Progress',
+                  style: AppTextStyles.heading_3_bold.copyWith(
+                    color: AppColors.Black,
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    'See All',
+                    style: AppTextStyles.paragraph_14_bold.copyWith(
+                      color: AppColors.Primary,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 8),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                children: filteredExercises.map((exercise) {
+                  return Padding(
+                    padding: const EdgeInsets.only(right: 16.0),
+                    child: HomepageWidget().WorkoutProgressCard(
+                      title: exercise.name,
+                      progress: '${exercise.count}/20',
+                      timeRemaining: '${exercise.duration} min remaining',
+                    ),
+                  );
+                }).toList(),
+              ),
+            ),
+            const SizedBox(height: 24),
+
+            // Categories Title
+            Text(
+              'Categories',
+              style: AppTextStyles.heading_3_bold.copyWith(
+                color: AppColors.Black,
+              ),
+            ),
+            const SizedBox(height: 8),
+
             // Filter Chips
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
@@ -208,6 +260,7 @@ class _HomepageScreenState extends State<HomepageScreen> {
   void _showExerciseDetails(BuildContext context, Exercise exercise) {
     showModalBottomSheet(
       context: context,
+      backgroundColor: AppColors.Black, // Set background color to black
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
       ),
@@ -238,12 +291,16 @@ class _HomepageScreenState extends State<HomepageScreen> {
                     children: [
                       Text(
                         exercise.name,
-                        style: AppTextStyles.heading_3_bold,
+                        style: AppTextStyles.heading_3_bold.copyWith(
+                          color: AppColors.white, // Set text color to white
+                        ),
                       ),
                       const SizedBox(height: 4),
                       Text(
                         '${exercise.count} Exercises • ${exercise.duration} Min',
-                        style: AppTextStyles.paragraph_14_regular,
+                        style: AppTextStyles.paragraph_14_regular.copyWith(
+                          color: AppColors.white, // Set text color to white
+                        ),
                       ),
                     ],
                   ),
@@ -252,12 +309,16 @@ class _HomepageScreenState extends State<HomepageScreen> {
               const SizedBox(height: 16),
               Text(
                 'Exercises',
-                style: AppTextStyles.heading_3_bold,
+                style: AppTextStyles.heading_3_bold.copyWith(
+                  color: AppColors.white, // Set text color to white
+                ),
               ),
               const SizedBox(height: 8),
               ...exercise.exercises.map((e) => Text(
                     '- $e',
-                    style: AppTextStyles.paragraph_14_regular,
+                    style: AppTextStyles.paragraph_14_regular.copyWith(
+                      color: AppColors.white, // Set text color to white
+                    ),
                   )),
               const SizedBox(height: 16),
               Center(
@@ -267,12 +328,26 @@ class _HomepageScreenState extends State<HomepageScreen> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 16.0,
+                      horizontal: 102.0, // Increase button size
+                    ),
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.pop(context); // Close bottom sheet
+                    GoRouter.of(context).go(
+                      '/exercise',
+                      extra: {
+                        'title': exercise.name,
+                        'imageUrl': exercise.image,
+                        'duration': exercise.duration,
+                      },
+                    );
+                  },
                   child: Text(
                     'Start Exercise',
-                    style: AppTextStyles.paragraph_14_bold.copyWith(
-                      color: AppColors.white,
+                    style: AppTextStyles.paragraph_18_bold.copyWith(
+                      color: AppColors.white, // Set text color to white
                     ),
                   ),
                 ),
