@@ -4,6 +4,7 @@ import 'package:fitdiva/features/presentation/view/Homepage_Widget.dart';
 import 'package:fitdiva/features/presentation/view/exercise_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:fitdiva/features/domain/entities/exercise.dart';
+import 'package:fitdiva/features/domain/usecases/get_exercises.dart';
 import 'package:provider/provider.dart';
 import 'package:fitdiva/features/presentation/provider/exercise_provider.dart';
 import 'package:fitdiva/features/domain/usecases/add_exercise.dart';
@@ -26,6 +27,96 @@ class _HomepageScreenState extends State<HomepageScreen> {
     'Chest': false,
     'Legs': false,
   };
+
+  OverlayEntry? _notificationOverlay;
+
+  void _showNotificationOverlay() {
+    final overlay = Overlay.of(context);
+    _notificationOverlay = OverlayEntry(
+      builder: (context) => Positioned(
+        top: 80,
+        right: 16,
+        left: 16,
+        child: Material(
+          color: Colors.transparent,
+          child: Container(
+            padding: const EdgeInsets.all(16.0),
+            decoration: BoxDecoration(
+              color: AppColors.white,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.1),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      'Notifications',
+                      style: AppTextStyles.heading_3_bold.copyWith(
+                        color: AppColors.Black,
+                      ),
+                    ),
+                    IconButton(
+                      icon: Icon(Icons.check, color: AppColors.Primary),
+                      onPressed: () {
+                        _notificationOverlay?.remove();
+                        _notificationOverlay = null;
+                      },
+                    ),
+                  ],
+                ),
+                const Divider(color: AppColors.grey),
+                _buildNotificationItem(
+                  'Don\'t forget to hydrate during your workout',
+                ),
+                const Divider(color: AppColors.grey),
+                _buildNotificationItem(
+                  'Congrats on completing your first week of workouts!',
+                ),
+                const Divider(color: AppColors.grey),
+                _buildNotificationItem(
+                  'It\'s HIIT o\'clock! Time for a quick and intense workout',
+                ),
+                const Divider(color: AppColors.grey),
+                _buildNotificationItem(
+                  'Hey fitness enthusiast, time to log your latest workout',
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    );
+    overlay?.insert(_notificationOverlay!);
+  }
+
+  Widget _buildNotificationItem(String message) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: Row(
+        children: [
+          Icon(Icons.alarm, color: AppColors.Primary, size: 24),
+          const SizedBox(width: 8),
+          Expanded(
+            child: Text(
+              message,
+              style: AppTextStyles.paragraph_14_regular.copyWith(
+                color: AppColors.Black,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   @override
   void initState() {
@@ -98,7 +189,7 @@ class _HomepageScreenState extends State<HomepageScreen> {
         actions: [
           IconButton(
             icon: Icon(Icons.notifications, color: AppColors.Black),
-            onPressed: () {},
+            onPressed: _showNotificationOverlay, // Show overlay on press
           ),
         ],
       ),
@@ -157,15 +248,7 @@ class _HomepageScreenState extends State<HomepageScreen> {
                     color: AppColors.Black,
                   ),
                 ),
-                TextButton(
-                  onPressed: () {},
-                  child: Text(
-                    'See All',
-                    style: AppTextStyles.paragraph_14_bold.copyWith(
-                      color: AppColors.Primary,
-                    ),
-                  ),
-                ),
+                
               ],
             ),
             const SizedBox(height: 8),
