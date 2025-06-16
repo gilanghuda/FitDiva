@@ -5,6 +5,7 @@ import 'package:fitdiva/features/presentation/provider/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'forgot_password_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -38,7 +39,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       SizedBox(height: 50),
                       Text(
                         'Login',
-                        style: AppTextStyles.LOGO.copyWith(color: AppColors.white, fontWeight: FontWeight.bold),
+                        style: AppTextStyles.LOGO.copyWith(
+                            color: AppColors.white,
+                            fontWeight: FontWeight.bold),
                       ),
                       SizedBox(height: 40),
                       if (_errorMessage != null)
@@ -86,7 +89,9 @@ class _LoginScreenState extends State<LoginScreen> {
                           prefixIcon: Icon(Icons.lock_outline),
                           suffixIcon: IconButton(
                             icon: Icon(
-                              _obscureText ? Icons.visibility_off : Icons.visibility,
+                              _obscureText
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
                             ),
                             onPressed: () {
                               setState(() {
@@ -102,11 +107,16 @@ class _LoginScreenState extends State<LoginScreen> {
                         children: [
                           GestureDetector(
                             onTap: () {
-                              // Handle forgot password action
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (_) => ForgotPasswordScreen()),
+                              );
                             },
                             child: Text(
                               'Forgot Password?',
-                              style: AppTextStyles.paragraph_14_regular.copyWith(
+                              style:
+                                  AppTextStyles.paragraph_14_regular.copyWith(
                                 color: AppColors.white,
                                 decoration: TextDecoration.underline,
                               ),
@@ -127,7 +137,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                       _errorMessage = null;
                                     });
                                     try {
-                                      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+                                      final authProvider =
+                                          Provider.of<AuthProvider>(context,
+                                              listen: false);
                                       await authProvider.login(
                                         _emailController.text.trim(),
                                         _passwordController.text.trim(),
@@ -135,7 +147,8 @@ class _LoginScreenState extends State<LoginScreen> {
                                       );
                                     } catch (e) {
                                       setState(() {
-                                        _errorMessage = 'Login failed. Please try again.';
+                                        _errorMessage =
+                                            'Login failed. Please try again.';
                                       });
                                     } finally {
                                       setState(() {
@@ -155,7 +168,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               ? CircularProgressIndicator(color: Colors.white)
                               : Text(
                                   'LOGIN',
-                                  style: AppTextStyles.paragraph_14_bold.copyWith(color: AppColors.white),
+                                  style: AppTextStyles.paragraph_14_bold
+                                      .copyWith(color: AppColors.white),
                                 ),
                         ),
                       ),
