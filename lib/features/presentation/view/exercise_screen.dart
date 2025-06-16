@@ -165,7 +165,7 @@ class _ExerciseScreenState extends State<ExerciseScreen> {
       appBar: AppBar(
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
-          onPressed: () => Navigator.pop(context),
+          onPressed: () => context.go(AppRoutes.navbar),
         ),
         title: Text(
           widget.title,
